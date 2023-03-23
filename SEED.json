@@ -1,0 +1,86 @@
+[
+    {
+        "scope": "https://api.mailgun.net:443",
+        "method": "GET",
+        "path": "/v3/lists/barnacle_club@sandbox7743ee8a12e6444883a136ec1e3b41f2.mailgun.org",
+        "body": "",
+        "status": 200,
+        "response": {
+            "list": {
+                "access_level": "readonly",
+                "address": "barnacle_club@sandbox7743ee8a12e6444883a136ec1e3b41f2.mailgun.org",
+                "created_at": "Thu, 10 Feb 2022 07:33:45 -0000",
+                "description": "",
+                "members_count": 0,
+                "name": "",
+                "reply_preference": "list"
+            }
+        },
+        "rawHeaders": [
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Cache-Control",
+            "no-store",
+            "Content-Disposition",
+            "inline",
+            "Content-Length",
+            "282",
+            "Content-Type",
+            "application/json",
+            "Date",
+            "Wed, 15 Mar 2023 02:37:12 GMT",
+            "Server",
+            "TwistedWeb/20.3.0",
+            "Strict-Transport-Security",
+            "max-age=63072000; includeSubDomains",
+            "X-Xss-Protection",
+            "1; mode=block",
+            "Connection",
+            "close"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.mailgun.net:443",
+        "method": "POST",
+        "path": "/v3/lists/barnacle_club@sandbox7743ee8a12e6444883a136ec1e3b41f2.mailgun.org/members?address=spongebob%40transcend.io&upsert=yes",
+        "body": "",
+        "status": 200,
+        "response": {
+            "member": {
+                "address": "spongebob@transcend.io",
+                "name": "",
+                "subscribed": true,
+                "vars": {}
+            },
+            "message": "Mailing list member has been created"
+        },
+        "rawHeaders": [
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Cache-Control",
+            "no-store",
+            "Content-Disposition",
+            "inline",
+            "Content-Length",
+            "170",
+            "Content-Type",
+            "application/json",
+            "Date",
+            "Wed, 15 Mar 2023 02:37:12 GMT",
+            "Server",
+            "TwistedWeb/20.3.0",
+            "Strict-Transport-Security",
+            "max-age=63072000; includeSubDomains",
+            "X-Xss-Protection",
+            "1; mode=block",
+            "Connection",
+            "close"
+        ],
+        "responseIsBinary": false
+    }
+]

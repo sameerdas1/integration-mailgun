@@ -1,0 +1,28 @@
+{
+  "name": "integrations-challenge",
+  "version": "1.0.0",
+  "description": "Mailgun API challenge",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "access": "ts-node --transpile-only src/runIntegration.ts ACCESS",
+    "erasure": "ts-node --transpile-only src/runIntegration.ts ERASURE",
+    "seed": "ts-node --transpile-only src/runIntegration.ts SEED",
+    "start-mock-server": "ts-node src/startMockServer.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^13.1.8",
+    "axios": "^1.3.4",
+    "got": "^11.8.6",
+    "request": "^2.88.2",
+    "request-promise": "^0.0.1"
+  },
+  "devDependencies": {
+    "ava": "^5.2.0",
+    "nock": "^13.3.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
