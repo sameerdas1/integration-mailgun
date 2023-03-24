@@ -1,9 +1,5 @@
 // external
-// request-promise library deprecated, but functionality mostly covered by `got` library
 import axios from 'axios';
-import { access } from 'fs';
-import got from 'got';
-// import httpAdapter from 'axios/lib/adapters/http';
 import nock from 'nock';
 import { TEST_DATA } from './constants';
 import access_response from '../ACCESS.json';
@@ -11,33 +7,9 @@ import access_response from '../ACCESS.json';
 // types
 import { AccessResponse, IntegrationDatapoints, SeedInput } from './types';
 
-const https = require('https');
-
-//improve variables names for readability
-//
-
-function filterList(identifier, response) {
-  var mailingList: Array<string> = []; 
-  for(let i=0; i<response.data.length; i++){
-    if (response.data[i].status == 200){
-      for(let j=0; j<response.data[i].response.items.length; j++){
-        if(response.data[i].response.items[j].address == identifier){
-          var pathStr = response.data[i].path;
-          pathStr = pathStr.replace("/v3/lists/", "");
-          pathStr = pathStr.replace("/members/pages", "");
-          mailingList.push(pathStr);
-          return mailingList;
-        }
-      }
-      continue;
-    }
-  }
-  return mailingList;
-}
-
-// The API key, from my account
-export const MAILGUN_API_KEY =
-  'd95f6140b8b7f43079880c5e0b525040-b36d2969-1b3706ff';
+// const https = require('https');
+const MAILGUN_API_KEY = 'd95f6140b8b7f43079880c5e0b525040-b36d2969-1b3706ff';
+const MAILGUN_BASE_URL = 'https://api.mailgun.net/v3';
 
 export const mailgunDataPoints: IntegrationDatapoints = {
   /**
@@ -51,58 +23,50 @@ export const mailgunDataPoints: IntegrationDatapoints = {
    * Get all mailing lists that the user belongs to
    */
   access: async (identifier: string): Promise<AccessResponse> => {
-    const url = `https://api.mailgun.net/v3/lists`;
-    // console.log('Checkpoint 2');
+    const url = `${MAILGUN_BASE_URL}/lists`;
 
-    //nock: mocked API call
-    const nock = require('nock');
-    const scope = nock('https://api.mailgun.net', {
-      auth: {
-        username: 'api',
-        password: 'd95f6140b8b7f43079880c5e0b525040-b36d2969-1b3706ff',
-      },
-    })
-      .get('/v3/lists')
-      .reply(200, access_response)
+    try {
+      //mock the API response with nock for testing purposes
+      // this nock requirestatement doesn't comply with TS module syntax without causing a bug (only remaining ESLint issue)
+      const nock = require('nock');
+      const scope = nock('https://api.mailgun.net', {
+        auth: {
+          username: 'api',
+          password: '${MAILGUN_API_KEY}',
+        },
+      })
+        .get('/v3/lists')
+        .reply(200, access_response)
 
-    // axios: actual Mailgun API call
-    const response = await axios.get(url, {
-      auth: {
-        username: 'api',
-        password: 'd95f6140b8b7f43079880c5e0b525040-b36d2969-1b3706ff',
-      },
-    });
+      // axios: actual Mailgun API call
+      const response = await axios.get(url, {
+        auth: {
+          username: 'api',
+          password: '${MAILGUN_API_KEY}',
+        },
+      });
 
-    // console.log('REQUEST');
-    // console.log(response);
 
-    // const mailingList = response.data[0].response.items;
+      const mailingList = filterMailingLists(identifier, response);
 
-    
-    
-    // console.log(mailingList)
-    // const listID = Object.keys(mailingList).map((list: any) => list.address);
-    // // console.log(listID)
-    // const accessList = listID.filter((listID) => {
-    //   return listID && listID.includes(identifier);
-    // });
+      // nock test logging
+      // console.log(`\nData retrieved for ${identifier}: \n[`);
+      // console.log(mailingList + "\n]\n");
 
-    var mailingList = filterList(identifier, response);
+      //unspecified any for `response` allows function for flexibility but leads to type specification warning
+      
 
-    // use for testing nock
-    // console.log(`\nData retrieved for ${identifier}: \n`);
-    // console.log(mailingList + "\n\n");
-
-    // console.log(mailingList);
-
-    return {
-      data: mailingList,
-      contextDict: undefined,
-    };
-
+      return {
+        data: mailingList,
+        contextDict: undefined,
+      };
+  }
+    // error handling
+    catch {
+      throw new Error('Error acccessing mailing lists!');
+    }
   },
   
-
   /**
    * Remove the user from all mailing lists.
    * NOTE: Erasure runs an Access (access()) before it to
@@ -112,3 +76,21 @@ export const mailgunDataPoints: IntegrationDatapoints = {
     throw new Error('Erasure not implemented!');
   },
 };
+
+function filterMailingLists(identifier: string, response: any): string[] {
+  const mailingLists: string[] = [];
+  for (const data of response.data) {
+    if (data.status !== 200) {
+      continue;
+    }
+    for (const item of data.response.items) {
+      if (item.address === identifier) {
+        let pathStr = data.path.replace('/v3/lists/', '');
+        pathStr = pathStr.replace('/members/pages', '');
+        mailingLists.push(pathStr);
+        return mailingLists;
+      }
+    }
+  }
+  return mailingLists;
+}

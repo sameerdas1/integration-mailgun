@@ -4,10 +4,6 @@ import { mailgunDataPoints as datapoints } from './mailgunDatapoints';
 import { ActionType, IntegrationDatapoints, SeedInput } from './types';
 import { verifyActionArgument } from "./utils";
 import { TEST_DATA } from './constants';
-// import { ACCESS }
-//new imports
-import axios from 'axios';
-import test from 'ava';
 
 
 /**
@@ -58,11 +54,6 @@ async function seedIntegration(
 }
 
 
-// nock and axios interceptor compatability attempt
-// axios.defaults.adapter = require('axios/lib/adapters/http')
-
-
-
 // Main function.
 (async () => {
   const action = verifyActionArgument(process.argv);
@@ -75,9 +66,6 @@ async function seedIntegration(
       ...def.options,
       filteringScope: scope => /^https:\/\/api\.mailgun\.net/.test(scope),
     }
-
-    // console.log("Checkpoint 1")
-
   })
 
   //  Load the nocks from pre-processed definitions.
