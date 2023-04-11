@@ -1,6 +1,7 @@
 # integrations-challenge
 
-This tech challenge is designed to test some basic web development practices. You will be building a program that interacts with a mocked Mailgun API.
+Integration of Mailgun API (RESTful) to access mailing lists a given user is subscribed to with TypeScript and Node.JS. Utilized nock/axios/got libraries to implement requests and checked in parallel with Postman API. This is a task given from a mentor to practice/gain familiarity with building the REST APIs and TypeScript/Node.js.
+
 
 ## To run
 
@@ -11,7 +12,7 @@ This tech challenge is designed to test some basic web development practices. Yo
   - Erasure: `npm run erasure`
   - Seed: `npm run seed`
 
-## Candidate Instructions
+## Instructions
 
 - Completing this practical challenge is very similar to what work would be like as an Integrations Engineer with Transcend.
   In this challenge you will be implementing a mock integration with Mailgun, an integration Transcend already offers.
@@ -56,11 +57,4 @@ Seeding data...
 Successfully seeded 1 identifiers.
 ```
 
-### Evaluation Criteria
 
-We will evaluate your solution using the following rubric:
-| Criteria | Below Expectations | Meets Expectation | Exceeds Expectations |
-| ----------- | ----------- | ----------- | ----------- |
-| Completeness | Basic functionality does not work, and/or has many bugs. | Implements the basic functionality without bugs. | Implements the basic functionality and at least one of the bonus challenges. |
-| Readability & Maintainability | Inconsistent syntax (ie did not use a linter). Poor function/variable names. | Used a linter. Easy to understand function/variable names. | Follows best practices for writing React components. Modularized code. Leaves comments explaining non-obvious trade-offs/future breakage. |
-| Robustness | Has no error handling, logging, etc. | Has some error handling and logging (or at least comments about TODOs). | All code paths have some error handling. Care has been taken to log errors and information that would help with future debugging. |
